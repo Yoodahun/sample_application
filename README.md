@@ -1,8 +1,8 @@
 # Ruby on Rails Tutorial Sample Application
 
 이 프로젝트는, 아래의 링크의 내용을 바탕으로 만들어진 프로젝트입니다.
-[*Ruby on Rails Tutorial JP *](https://railstutorial.jp/)
-[Michael Hartl](http://www.michaelhartl.com/) 著
+*[Ruby on Rails Tutorial JP]*(https://railstutorial.jp/)
+[Michael Hartl](http://www.michaelhartl.com/) 원작
 
 ## 사용방법
 
