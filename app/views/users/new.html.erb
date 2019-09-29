@@ -1,4 +1,26 @@
 
+<!-- application_helper의 full_title로 전달 -->
 <% provide(:title, 'Sign up') %>
 <h1>Sign up</h1>
-<p>This will be sign up page for new users.</p>
+
+<div class="row">
+  <div class="col-md-6 offset-md-3">
+    <%= form_for(@user, url: signup_path) do |f| %>
+      <%= render 'shared/error_messages' %>
+
+      <%= f.label :name %>
+      <%= f.text_field :name %>
+
+      <%= f.label :email %>
+      <%= f.email_field :email %>
+
+      <%= f.label :password %>
+      <%= f.password_field :password %>
+
+      <%= f.label :password_confirmation, "Confirmation" %>
+      <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+      <%= f.submit "Create my account", class: "btn btn-primary" %>
+    <% end %>
+  </div>
+</div>
