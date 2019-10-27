@@ -35,6 +35,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     follow_redirect! #Post리퀘스트 송신결과를 확인 후 지정된 주소로 리다이렉트
     assert_template 'users/show'
     assert_not flash[:success].blank? #비어있는지확인? not이기 때문에 안비어있다는게 맞다면 성공
+    assert is_logged_in?
   end
 
 end
