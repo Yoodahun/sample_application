@@ -10,6 +10,11 @@
       <%= f.label :password %>
       <%= f.password_field :password, class: 'form-control'%>
 
+      <%= f.label :remember_me, class: "checkbox inline" do %>
+        <%= f.check_box :remember_me %> <!-- 라벨 안에 체크박스를 넣어야 제대로 동작함  -->
+        <span>Remember me on this computer</span>
+      <% end %>
+
       <%= f.submit "Log in", class: "btn btn-primary" %>
     <% end %>
 
