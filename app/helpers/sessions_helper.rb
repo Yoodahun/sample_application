@@ -22,6 +22,10 @@ module SessionsHelper
     @current_user = nil
   end
 
+  def current_user?(user)
+    user == current_user
+  end
+
   def current_user
     if (user_id = session[:user_id]) #세션에 정보가 있다면
       @current_user ||= User.find_by(id: user_id)
@@ -39,5 +43,15 @@ module SessionsHelper
   def logged_in?
     !current_user.nil?
   end
+
+  def redirect_back_or(default)  # 기억한 URL로 리다이렉트
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
+  end
+
+   def store_location #접근하려고 하는 URL을 저장 get으로 왔을 때만.
+     session[:forwarding_url] = request.original_url if request.get?
+
+   end
 
 end

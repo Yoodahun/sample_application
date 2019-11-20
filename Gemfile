@@ -39,6 +39,10 @@ gem "nokogiri", ">= 1.10.4"
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
+gem 'faker'
+gem 'will_paginate'
+gem 'will_paginate-bootstrap4' #일반  will_paginate-bootstrap은 현재 bootstrap에 대응하지않음
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

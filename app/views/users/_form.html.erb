@@ -1,0 +1,19 @@
+<%= form_for(@user, url: yield(:url)) do |f| %>
+  <!--      form_for(@user)를 사용할 때, 자동으로 new_record? 가 실행되어 새 유저이면 true, 기존 유저면 false가 실행된다.-->
+  <!--      실행 결과에 따라 form을 post로 할 것 인지 patch로 할 것 인지를 자동으로 결정해줌.-->
+  <%= render 'shared/error_messages' %>
+
+  <%= f.label :name %>
+  <%= f.text_field :name, class: 'form-control' %>
+
+  <%= f.label :email %>
+  <%= f.email_field :email, class: 'form-control'  %>
+
+  <%= f.label :password %>
+  <%= f.password_field :password, class: 'form-control'  %>
+
+  <%= f.label :password_confirmation, "Confirmation" %>
+  <%= f.password_field :password_confirmation, class: 'form-control' %>
+
+  <%= f.submit yield(:button_text), class: "btn btn-primary" %>
+<% end %>

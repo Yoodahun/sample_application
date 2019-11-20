@@ -16,6 +16,7 @@ $gray-light: #777;
 $gray-medium-light: #eaeaea;
 $gray-darker: #222;
 $state-danger-text: #D6031A;
+$gray-lighter: #eee;
 //Chapter 5 Update
 
 // Universal
@@ -210,4 +211,15 @@ input {
   margin-top: 20px;
 }
 
+/* Users index */
+
+.users {
+  list-style: none;
+  margin: 0;
+  li {
+    overflow: auto;
+    padding: 10px 0;
+    border-bottom: 1px solid $gray-lighter;
+  }
+}
 

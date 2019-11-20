@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
       # 유저 로그인 후 유저 정보 페이지로 리다이렉트
       log_in(@user)
       params[:session][:remember_me] == '1' ? remember(@user) : forget(@user)
-      redirect_to(@user)
+      redirect_back_or(@user)
     else
       #유저 로그인 실패 후 에러메세지 작성
       flash.now[:danger] = "Invalid email/password combination"

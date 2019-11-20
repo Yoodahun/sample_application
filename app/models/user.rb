@@ -17,7 +17,8 @@ class User < ApplicationRecord
             format: { with: VALID_EMAIL_REGEX },
             uniqueness: { case_sensitive: false } #대소문를 구분안함
   #password
-  validates :password, presence: true, length: { minimum: 6}
+  validates :password, presence: true, length: { minimum: 6}, allow_nil: true
+  #수정 시의 패스워드 공백을 허용함.
 
   has_secure_password
 
