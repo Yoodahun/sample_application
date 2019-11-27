@@ -7,8 +7,11 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
 
   #데이터가 저장되기전 무조건 실행되는 메소드. 모든 문자를 소문자로 변환
-  before_save { email.downcase! }
-  attr_accessor :remember_token
+  before_save :downcase_email
+  #User오브젝트가 생성되기 전 실행되는 메소드
+  before_create :create_activation_digest
+  #User모델의 가상의 속성
+  attr_accessor :remember_token, :activation_token
 
   #이름
   validates :name, presence: true, length: { maximum: 50}
@@ -41,13 +44,42 @@ class User < ApplicationRecord
   end
 
   # 입력받은 token이 digest와 일치하면, true를 리턴한다.
-  def authenticated?(remember_token)
-    return false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # def authenticated?(remember_token)
+  #   return false if remember_digest.nil?
+  #   BCrypt::Password.new(remember_digest).is_password?(remember_token)
+  # end
+
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
+    return false if digest.nil?
+    BCrypt::Password.new(digest).is_password?(token)
   end
+
 
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  # account를 유효화한다.
+  def activate
+    update_columns(activated: true, activated_at: Time.zone.now)
+  end
+
+  # Send mail
+  def send_activation_email
+    UserMailer.account_activation(self).deliver_now
+  end
+
+  private
+  # convert email address to downcase
+  def downcase_email
+    self.email = email.downcase
+  end
+
+  # create activation token and digest then insert.
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
   end
 
 end
