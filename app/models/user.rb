@@ -11,7 +11,7 @@ class User < ApplicationRecord
   #User오브젝트가 생성되기 전 실행되는 메소드
   before_create :create_activation_digest
   #User모델의 가상의 속성
-  attr_accessor :remember_token, :activation_token
+  attr_accessor :remember_token, :activation_token, :reset_token
 
   #이름
   validates :name, presence: true, length: { maximum: 50}
@@ -68,6 +68,23 @@ class User < ApplicationRecord
   # Send mail
   def send_activation_email
     UserMailer.account_activation(self).deliver_now
+  end
+
+  #create password reset digest
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_columns(reset_digest: User.digest(reset_token),
+                   reset_sent_at: Time.zone.now)
+
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  # check the password expire.
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 
   private
