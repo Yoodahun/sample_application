@@ -5,6 +5,8 @@ class User < ApplicationRecord
   # length : maximum 50 > 길이의 검증
   #
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
+  has_many :microposts, dependent: :destroy
+  # micropost Relationship. when user deleted, related posts also delete.
 
   #데이터가 저장되기전 무조건 실행되는 메소드. 모든 문자를 소문자로 변환
   before_save :downcase_email
@@ -85,6 +87,10 @@ class User < ApplicationRecord
   # check the password expire.
   def password_reset_expired?
     reset_sent_at < 2.hours.ago
+  end
+
+  def feed
+    Micropost.where("user_id = ?", id)
   end
 
   private

@@ -6,4 +6,14 @@ class ApplicationController < ActionController::Base
 
   end
 
+  private
+
+    def logged_in_user #유저가 로그인했는지를 확인. 하지 않았으면 로그인해달라는 메세지 출력
+      unless logged_in?
+        store_location
+        flash[:danger] = "Please log in."
+        redirect_to login_url
+      end
+    end
+
 end

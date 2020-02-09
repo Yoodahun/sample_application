@@ -15,6 +15,7 @@ class UsersController < ApplicationController
 
   def show
     @user = User.find(params[:id])
+    @microposts = @user.microposts.paginate(page: params[:page])
   end
 
   def create
@@ -49,19 +50,13 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+
 private
   def user_params
     params.require(:user).permit(:name, :email, :password,
                                 :password_confirmation)
   end
 
-  def logged_in_user #유저가 로그인했는지를 확인. 하지 않았으면 로그인해달라는 메세지 출력
-    unless logged_in?
-      store_location
-      flash[:danger] = "Please log in."
-      redirect_to login_url
-    end
-  end
 
   def correct_user #올바른 유저인지 확인
    @user = User.find(params[:id])
