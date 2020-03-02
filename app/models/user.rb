@@ -7,6 +7,9 @@ class User < ApplicationRecord
   VALID_EMAIL_REGEX = /\A[\w+\-.]+@[a-z\d\-]+(\.[a-z\d\-]+)*\.[a-z]+\z/i
   has_many :microposts, dependent: :destroy
   # micropost Relationship. when user deleted, related posts also delete.
+  has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
+  #User has many followers call Relationship
+
 
   #데이터가 저장되기전 무조건 실행되는 메소드. 모든 문자를 소문자로 변환
   before_save :downcase_email
