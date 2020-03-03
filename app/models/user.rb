@@ -8,7 +8,16 @@ class User < ApplicationRecord
   has_many :microposts, dependent: :destroy
   # micropost Relationship. when user deleted, related posts also delete.
   has_many :active_relationships, class_name: "Relationship", foreign_key: "follower_id", dependent: :destroy
-  #User has many followers call Relationship
+  #User has many followers call Relationship 내가 따르는 것
+  has_many :passive_relationships, class_name: "Relationship", foreign_key: "followed_id", dependent: :destroy
+  #User has many following 나를 따르는 것
+
+  has_many :following, through: :active_relationships, source: :followed
+  #내가 follow 하는 사람들을 following으로 하겠다. followed_id
+  has_many :followers, through: :passive_relationships, source: :follower
+  #나를 follow하는 사람들을 follower라고 하겠다. follower_id
+
+
 
 
   #데이터가 저장되기전 무조건 실행되는 메소드. 모든 문자를 소문자로 변환
@@ -94,6 +103,21 @@ class User < ApplicationRecord
 
   def feed
     Micropost.where("user_id = ?", id)
+  end
+
+  #Follow other user
+  def follow(other_user)
+    following << other_user
+  end
+
+  #unfollow other user
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  #현재 유저가 follow하고 있다면 true리턴
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   private
