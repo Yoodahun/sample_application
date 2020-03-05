@@ -23,6 +23,10 @@ class UsersProfileTest < ActionDispatch::IntegrationTest
     end
     # response.body는 해당 페이지 어딘가에 어떠한 내용이 존재한다는 것임.
     # assert_select는 반드시 어떠한 태그를 찾는지 지정을 해줘야함.
+    assert_select 'strong#following'
+    assert_match @user.following.count.to_s, response.body
+    assert_select 'strong#followers'
+    assert_match @user.followers.count.to_s, response.body
   end
 
 end
